@@ -1,0 +1,106 @@
+@font-face {
+    font-family: 'Free Pixel';
+    src: URL('FreePixel.ttf') format('truetype');
+}
+
+body, content, div, h1, h2, h3, h4, h5, h6, p, button {
+    font-family: 'Free Pixel';
+    font-weight: 900;
+    padding: 0;
+    margin: 0;
+}
+
+body {
+    padding: 10px;
+    margin: 10px;
+    background-color: rgba(64, 130, 191, 0.425);
+}
+
+content {
+    margin: auto;
+    text-align: center;
+}
+
+h1 {
+    padding: 2px;
+    margin: 6px 10px;
+}
+
+h2 {
+    padding: 2px;
+    margin: 6px 10px;
+}
+
+h3 {
+    padding: 2px;
+    margin: 6px 10px;
+}
+
+h4 {
+    padding: 2px;
+    margin: 6px 10px;
+}
+
+h5 {
+    padding: 2px;
+    margin: 6px 10px;
+}
+
+h6 {
+    padding: 2px;
+    margin: 6px 10px;
+}
+
+button {
+    width: 100px;
+    height: 40px;
+    margin: 0 5px;
+    font-size: 18px;
+}
+
+.card-area {
+    background-color: hsla(150, 30%, 40%, 1);
+    border-radius: 0;
+    border: groove 20px;
+    border-color: hsla(20, 50%, 40%, 1);
+    min-width: 256px;
+    max-width: 800px;
+    margin: auto;
+}
+
+.dealer-cards {
+    display: inline;
+    font-size: 0;
+}
+
+.card {
+    height: 128px;
+}
+
+.dealer-area h1 {
+    color: white;
+}
+
+.dealer-area h3 {
+    color: white;
+}
+
+.player-area h1 {
+    color: white;
+}
+
+.player-area h3 {
+    color: white;
+}
+
+.button-area {
+    min-width: 296px;
+}
+
+.decisions {
+    margin: 10px;
+}
+
+.new-game {
+    margin: 10px;
+}
