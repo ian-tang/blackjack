@@ -1,11 +1,14 @@
+let delay = 1000; // variable used to time the fade-in animations sequentially
+
 // load images for the dealer's and player's cards
 $(document).ready(function() {
-  animateCard(newCard(), "#face-up");
-  animateHoleCard(newCard()); // special function for hiding the value of the dealer's "hole" card
+  animateCard(getNewCard(), "#face-up");
+  // special function for hiding the value of the dealer's "hole" card
+  animateHoleCard(getNewCard());
   $("#dealer-total").text("Dealer's Card Total: ??");
 
-  animateCard(newCard(), "#player-cards");
-  animateCard(newCard(), "#player-cards", 1000);
+  animateCard(getNewCard(), "#player-cards");
+  animateCard(getNewCard(), "#player-cards", delay);
   $("#player-total").text("Your Card Total: " + getPlayerTotal());
 
   // check for the special case in which the dealer has a face up 10 value card
@@ -15,12 +18,14 @@ $(document).ready(function() {
   for (let i = 0; i < $dealerCards.length; i++) {
     dealerCards[i] = parseInt($dealerCards[i].getAttribute("data-value"));
   }
-  // the game immediately ends if the dealer has a face up 10 and an ace in the hole
+  // the game immediately ends if the dealer has a face up 10 value card and
+  // an ace in the hole
   // it also ends if the player has blackjack
-  if ((dealerCards[0] === 10 && dealerCards[1] === 1) || getPlayerTotal() === "Blackjack!") {
+  if ((dealerCards[0] === 10 && dealerCards[1] === 1) ||
+      getPlayerTotal() === "Blackjack!") {
     $(".decision-button").prop("disabled", true);
     $("#hole-card").remove();
-    $("#face-up .card").delay(1000).fadeIn(1000);
+    $("#face-up .card").delay(delay).fadeIn(1000);
     $("#dealer-total").text("Dealer's Card Total: " + getDealerTotal());
     declareWinner();
   }
@@ -28,8 +33,8 @@ $(document).ready(function() {
 
 // button functions
 // add card upon clicking "hit"
-$("#hit").click(function() {
-  let card = newCard();
+$("#hit").click(() => {
+  let card = getNewCard();
   animateCard(card, "#player-cards");
   $("#player-total").text("Your Card Total: " + getPlayerTotal());
   if (getPlayerTotal() === 21 || getPlayerTotal() === "Bust!") {
@@ -37,27 +42,37 @@ $("#hit").click(function() {
   }
 });
 // reveal dealer's hole card and hit to 17
-$("#stand").click(function() {
+$("#stand").click(() => {
   resolveDealer();
 });
 // reloads the page for a new game
-$("#new-game").click(function() {
+$("#new-game").click(() => {
   location.reload();
 });
+$("#rules-button").click(() => {
+  $(this).toggleClass("active");
+  let rules = $(".rules");
+  if (rules.css("max-height") !== "0px")
+    rules.css("max-height", "0");
+  else
+    rules.css("max-height", rules.prop("scrollHeight") + "px");
+});
 
-// helper functions below ----------------------------------------------------------
+// helper functions below -----------------------------------------------------
 
 // randomly selects a new card and returns its name and number value in an array
 // designed to be used as an input to animateCard()
-// also has a role in getting the proper file name for the card image and for creating the alt text for the image
+// also has a role in getting the proper file name for the card image and for
+// creating the alt text for the image
 //
-// because it randomly generates each card, it does not accurately model the probability of a real
-// blackjack game, since it can create duplicate cards
-// however, since most casino blackjack games are played with up to as many as 8 decks of cards,
-// the difference is small
-// a more accurate implementation would generate an array of 8 decks of cards and remove each one
-// from the array after it is drawn and also keep the array persistent between games
-function newCard() {
+// because it randomly generates each card, it does not accurately model the
+// probability of a real blackjack game, since it can create duplicate cards
+// however, since most casino blackjack games are played with up to as many as
+// 8 decks of cards, the difference is small
+// a more accurate implementation would generate an array of 1-8 decks of cards
+// and remove each one from the array after it is drawn and also keep the array
+// persistent between games
+function getNewCard() {
   num = Math.ceil(Math.random() * 13);
   suit = Math.ceil(Math.random() * 4);
   str = "";
@@ -116,7 +131,8 @@ function animateHoleCard(card) {
     
 }
 
-// returns the total value of the dealer's cards or a string with "Blackjack!" or "Bust!"
+// returns the total value of the dealer's cards or a string with
+// "Blackjack!" or "Bust!"
 function getDealerTotal() {
   let $dealerCards = $("#face-up .card");
   let dealerCards = [];
@@ -162,17 +178,19 @@ function resolveDealer() {
   $("#dealer-total").text("Dealer's Card Total: " + getDealerTotal());
   
   // gives the dealer more cards
-  // takes advantage of the fact that a string output from getDealerTotal() such as "Bust!"
-  // would evaluate to false since NaN evaluated against a number is always false
+  // takes advantage of the fact that a string output from getDealerTotal()
+  // such as "Bust!" would evaluate to false since NaN evaluated against
+  // a number is always false
   //
-  // a better implementation would probably be to rewrite getDealerTotal() and getPlayerTotal()
-  // to give all outputs as numbers, and print "Blackjack!" or "Bust!" based on those outputs,
-  // but this works in the current implementation
-  let delay = 1000;
+  // a better implementation would probably be to rewrite getDealerTotal() and
+  // getPlayerTotal() to give all outputs as numbers, and print "Blackjack!" or
+  // "Bust!" based on those outputs, but this works in the current
+  // implementation
   while (getDealerTotal() < 17) {
-    animateCard(newCard(), "#face-up", delay);
+    animateCard(getNewCard(), "#face-up", delay);
     $("#dealer-total").text("Dealer's Card Total: " + getDealerTotal());
-    delay += 1000; // increases the delay each loop so that each card fades in sequentially
+    // increases the delay each loop so that each card fades in sequentially
+    delay += 1000;
   }
   declareWinner();
 }
@@ -187,12 +205,14 @@ function declareWinner() {
   else if (player === dealer)
     result = "It's a push. Nobody wins.";
   else if (dealer === "Blackjack!")
-    result = "The dealer has blackjack!";
+    result = "The dealer wins with blackjack.";
   else if (player === "Blackjack!")
     result = "Blackjack! You win!";
-  else if (typeof player === "number" && typeof dealer === "number" && dealer > player)
+  else if (typeof player === "number" && typeof dealer === "number" &&
+      dealer > player)
     result = "The dealer wins.";
-  else if (typeof player === "number" && typeof dealer === "number" && dealer < player)
+  else if (typeof player === "number" && typeof dealer === "number" &&
+      dealer < player)
     result = "You win!";
   else if (player === "Bust!")
     result = "You bust. The dealer wins.";
@@ -204,5 +224,8 @@ function declareWinner() {
     .css("min-width", "296px")
     .css("padding", "0")
     .css("margin", "0")
-    .appendTo("content");
+    .hide()
+    .appendTo(".button-area")
+    .delay(delay)
+    .fadeIn();
 }

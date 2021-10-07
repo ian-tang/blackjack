@@ -21,34 +21,8 @@ content {
     text-align: center;
 }
 
-h1 {
-    padding: 2px;
-    margin: 6px 10px;
-}
-
-h2 {
-    padding: 2px;
-    margin: 6px 10px;
-}
-
-h3 {
-    padding: 2px;
-    margin: 6px 10px;
-}
-
-h4 {
-    padding: 2px;
-    margin: 6px 10px;
-}
-
-h5 {
-    padding: 2px;
-    margin: 6px 10px;
-}
-
-h6 {
-    padding: 2px;
-    margin: 6px 10px;
+p {
+    text-align: left;
 }
 
 button {
@@ -78,18 +52,26 @@ button {
 }
 
 .dealer-area h1 {
+    padding: 2px;
+    margin: 6px 10px;
     color: white;
 }
 
 .dealer-area h3 {
+    padding: 2px;
+    margin: 6px 10px;
     color: white;
 }
 
 .player-area h1 {
+    padding: 2px;
+    margin: 6px 10px;
     color: white;
 }
 
 .player-area h3 {
+    padding: 2px;
+    margin: 6px 10px;
     color: white;
 }
 
@@ -103,4 +85,10 @@ button {
 
 .new-game {
     margin: 10px;
+}
+
+.rules {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease-out;
 }
