@@ -35,7 +35,7 @@ $(document).ready(function() {
 // add card upon clicking "hit"
 $("#hit").click(() => {
   let card = getNewCard();
-  animateCard(card, "#player-cards", delay);
+  animateCard(card, "#player-cards");
   $("#player-total").text("Your Card Total: " + getPlayerTotal());
   if (getPlayerTotal() === 21 || getPlayerTotal() === "Bust!") {
     resolveDealer();
