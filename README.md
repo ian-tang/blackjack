@@ -7,3 +7,5 @@ This is a greatly simplified version of blackjack in which the player only has 2
 It also uses a simplified modeling system for drawing cards. Each new card is simply randomly generated, effectively the same as if it were drawn from a completely new deck of 52 cards. Thus, there may be duplicates in play. However, the actual probability differences are minor when considering that casino blackjack often uses 6-8 decks of cards simultaneously.
 
 This project was created as part of the admissions process for the Codeworks Software Engineering Immersive course.
+
+Credit to kenney.nl for the playing card assets (License CC0 1.0 Universal).
